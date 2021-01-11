@@ -8,10 +8,10 @@ const path = require('path')
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cors())
-app.use(static(path.join(__dirname,'clientinitial')))
+app.use(static(path.join(__dirname,'build')))
 
 app.use('/api/convert',convertRouter)
 
-app.use('*', (req,res) => res.sendFile(path.join(__dirname,'clientinitial','index.html')))
+app.use('*', (req,res) => res.sendFile(path.join(__dirname,'build','index.html')))
 
 module.exports = app

@@ -1,0 +1,17 @@
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const convertRouter = require('./controllers/convertRouter')
+const { static } = require('express')
+const path = require('path')
+
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use(cors())
+app.use(static(path.join(__dirname,'clientinitial')))
+
+app.use('/api/convert',convertRouter)
+
+app.use('*', (req,res) => res.sendFile(path.join(__dirname,'clientinitial','index.html')))
+
+module.exports = app

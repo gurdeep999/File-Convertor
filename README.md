@@ -15,4 +15,4 @@ PRs are always welcome.
 
 If you don't know what to help with. Connect with me on discord, i'll get you to speed with this.
 
-you can connect with me on discord username - Gurdeep#2355
+discord username - Gurdeep#2355

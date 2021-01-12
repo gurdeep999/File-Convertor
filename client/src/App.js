@@ -11,13 +11,15 @@ flex-direction: column;
 flex: 1 1 0%;
 width: 100%;
 align-items: center;
+
+
 `
 
 const StyledCenterContainer = styled.div`
 
 `
 const App = () => {
-  const test= 'testsdaf'
+
   return (
     <StyledApp>
       <Header />

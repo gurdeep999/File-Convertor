@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useDropzone } from 'react-dropzone'
+import fileService from '../services/files'
+import download from 'downloadjs'
 
-const pairs = [{
-  csv: 'json'
-},{
-  json:'csv'
-}]
+const pairs = {
+  csv: 'json',
+  json: 'csv'
+}
 
 const StyledConvertor = styled.div`
 background-color: rgb(248,249,249);
@@ -78,6 +79,7 @@ padding: 4rem 5rem;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    width: 100%;
     
     &:focus {
       outline: none;
@@ -98,9 +100,9 @@ padding: 4rem 5rem;
 `
 
 const Convertor = () => {
-  const [file, setFile] = useState()
-  const [from,setFrom] = useState('default')
-  const [to,setTo] = useState('default')
+  const [file, setFile] = useState(null)
+  const [from, setFrom] = useState('default')
+  const [to, setTo] = useState('default')
 
   const onDrop = useCallback((files) => {
     const [uploadedFile] = files
@@ -109,9 +111,42 @@ const Convertor = () => {
   }, [])
   const { getRootProps, getInputProps, rootRef } = useDropzone({ onDrop })
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const downloadFile = async (data) => {
+    try {
+      return download(data.returnedFile,data.fileName,data.mimetype)
+    } catch (e) {
+      console.log('error while downloading file')
+    }
+  }
 
+  const destroyFile = async (path) => {
+    await fileService.destroy(path)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      if (from !== 'default' || to !== 'default') {
+        if (file) {
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('from', from)
+          formData.append('to', to)
+          setFile('')
+          setFrom('default')
+          setTo('default')
+          const data = await fileService.upload(formData)
+          await downloadFile(data)
+          await destroyFile(data.returnedFile)
+        } else {
+          console.log('please select a file to upload')
+        }
+      } else {
+        console.log('please select file type to be converted and the target type')
+      }
+    } catch (e) {
+      e.response && console.log(e.response.data)
+    }
   }
 
   return (
@@ -122,21 +157,23 @@ const Convertor = () => {
           <div className="select">
             <select value={from} onChange={(e) => setFrom(e.target.value)} id="from">
               {
-                
+                Object.keys(pairs).map(k => (
+                  <option key={k} value={k}>{k}</option>
+                ))
               }
-              <option value="default">Select FIle Type</option>
+              <option value="default">Select File Type</option>
             </select>
-   
+
           </div>
         </div>
         <div className="to">
           <label htmlFor="to">To</label>
           <div className="select">
-            <select value={to} onChange={(e) => setTo(e.target.value)}  id="to">
-            {
-
-            }
-            <option value="default">Select FIle Type</option>
+            <select value={to} onChange={(e) => setTo(e.target.value)} id="to">
+              {
+                from && (<option value={pairs[from]}>{pairs[from]}</option>)
+              }
+              <option value="default">Select File Type</option>
             </select>
             <div className="focus"></div>
           </div>
@@ -144,17 +181,20 @@ const Convertor = () => {
         <div className="file-section">
           <div {...getRootProps({ className: 'drop-zone' })} ref={rootRef}>
             <input {...getInputProps()} />
-            <p><span>Drag 'n' drop some files here, or </span>click to select files</p>
-            {file && (
-              <div>
-                <strong>Selected File: </strong>
-                {file.name}
-                <div className="remove-file" onClick={(e) => {
-                  setFile(null)
-                  e.stopPropagation()
-                }}>remove</div>
-              </div>
-            )
+            {!file
+              ? (
+                <p><span>Drag 'n' drop some files here, or </span>click to select files</p>
+              )
+              : (
+                <div>
+                  <strong>Selected File: </strong>
+                  {file.name}
+                  <div className="remove-file" onClick={(e) => {
+                    setFile(null)
+                    e.stopPropagation()
+                  }}>remove</div>
+                </div>
+              )
             }
           </div>
         </div>

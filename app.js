@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(cors())
 app.use(static(path.join(__dirname,'build')))
 
-app.use('/api/convert',convertRouter)
+app.use('/api/file',convertRouter)
 
 app.use('*', (req,res) => res.sendFile(path.join(__dirname,'build','index.html')))
 

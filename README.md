@@ -12,7 +12,7 @@ React, Node, Express (No DBs added yet)
 
 ## To-Do
 - [x] csv to json and vice versa
-- [ ] svg to png/jpg
+- [ ] svg to png/jpg (with options for adjusting height/width of image)
 - [ ] docs to pdf
 - [ ] image to webp
 - [ ] image to ascii art

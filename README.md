@@ -10,9 +10,9 @@ When enough file types have been added, the backend can be abstracted to create 
 ## Tech Used
 React, Node, Express (No DBs added yet)
 
-## Contributing
-PRs are always welcome.
-
-Connect with me on discord, i'll get you to speed with this.
-
-discord username - Gurdeep#2355
+## To-Do
+- [x] csv to json and vice versa
+- [ ] svg to png/jpg
+- [ ] docs to pdf
+- [ ] image to webp
+- [ ] image to ascii art

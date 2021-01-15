@@ -10,9 +10,15 @@ When enough file types have been added, the backend can be abstracted to create 
 ## Tech Used
 React, Node, Express (No DBs added yet)
 
+## TO DO-
+- [x] csv to json and vice versa
+- [ ] docs to pdf and vice versa
+- [ ] svg to png, jpg
+- [ ] markdown to json
+
 ## Contributing
 PRs are always welcome.
 
-If you don't know what to help with. Connect with me on discord, i'll get you to speed with this.
+Connect with me on discord, i'll get you to speed with this.
 
 discord username - Gurdeep#2355

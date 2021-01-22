@@ -112,11 +112,9 @@ const Convertor = () => {
   const { getRootProps, getInputProps, rootRef } = useDropzone({ onDrop })
 
   const downloadFile = async (buffer, fileName, mimetype) => {
+    const strippedFileName = fileName.replace(/^\d+-/,'')
     try {
-      // if (from === 'svg') {
-      //   return download(buffer, fileName, mimetype.returnedFile)
-      // }
-      return download(buffer, fileName, mimetype)
+      return download(buffer, strippedFileName, mimetype)
     } catch (e) {
       console.log('error while downloading file')
     }
@@ -144,7 +142,7 @@ const Convertor = () => {
         console.log('please select file type to be converted and the target type')
       }
     } catch (e) {
-      e.response && console.log(e.response.data)
+      e.response && console.log(e.message)
     }
   }
 

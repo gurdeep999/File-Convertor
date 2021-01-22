@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3001/api/convert'
+const API_URL = '/api/convert'
 
 const upload = async (data) => {
   const config = {

@@ -7,7 +7,8 @@
     "start": "node index.js",
     "devServer": "nodemon index.js",
     "client": "cd client && npm start",
-    "clientBuild": "rm -rf build && cd client && npm run build && cp -r build ../ && rm -rf build"
+    "clientBuild": "rm -rf build && cd client && npm run build && cp -r build ../ && rm -rf build",
+    "buildDeploy": "npm run clientBuild && git add . && git commit -m 'build' && git push"
   },
   "author": "",
   "license": "ISC",

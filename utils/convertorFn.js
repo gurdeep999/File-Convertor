@@ -81,6 +81,7 @@ const svg2imgConvertor = async (filePath, to, options ) => {
   await svg2img(filePath, { format: to, ...options }, (err, buffer) => {
     writeStream.write(buffer)
     writeStream.end()
+    deleteFile(filePath)
   })
   return destFile
 }

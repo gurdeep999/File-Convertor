@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "devServer": "nodemon index.js",
-    "client": "cd client && npm start"
+    "client": "cd client && npm start",
+    "build": "rm -rf build && cd client && npm run build && cp -r build ../ && rm -rf build"
   },
   "author": "",
   "license": "ISC",

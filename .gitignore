@@ -2,3 +2,5 @@
 /node_modules
 /client/node_modules
 client/.eslintcache
+test.js
+.env

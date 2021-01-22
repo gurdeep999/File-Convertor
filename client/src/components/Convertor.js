@@ -5,8 +5,9 @@ import fileService from '../services/files'
 import download from 'downloadjs'
 
 const pairs = {
-  csv: 'json',
-  json: 'csv'
+  csv: ['json'],
+  json: ['csv'],
+  svg: ['png', 'jpg']
 }
 
 const StyledConvertor = styled.div`
@@ -107,20 +108,18 @@ const Convertor = () => {
   const onDrop = useCallback((files) => {
     const [uploadedFile] = files
     setFile(uploadedFile)
-
   }, [])
   const { getRootProps, getInputProps, rootRef } = useDropzone({ onDrop })
 
-  const downloadFile = async (data) => {
+  const downloadFile = async (buffer, fileName, mimetype) => {
     try {
-      return download(data.returnedFile,data.fileName,data.mimetype)
+      // if (from === 'svg') {
+      //   return download(buffer, fileName, mimetype.returnedFile)
+      // }
+      return download(buffer, fileName, mimetype)
     } catch (e) {
       console.log('error while downloading file')
     }
-  }
-
-  const destroyFile = async (path) => {
-    await fileService.destroy(path)
   }
 
   const handleSubmit = async (e) => {
@@ -136,8 +135,8 @@ const Convertor = () => {
           setFrom('default')
           setTo('default')
           const data = await fileService.upload(formData)
-          await downloadFile(data)
-          await destroyFile(data.returnedFile)
+          const buffer = await fileService.download(data.fileName)
+          await downloadFile(buffer, data.fileName , data.mimetype)
         } else {
           console.log('please select a file to upload')
         }
@@ -171,7 +170,9 @@ const Convertor = () => {
           <div className="select">
             <select value={to} onChange={(e) => setTo(e.target.value)} id="to">
               {
-                from && (<option value={pairs[from]}>{pairs[from]}</option>)
+                from !== 'default'
+                  ? (pairs[from].map(p => <option key={p} value={p}>{p}</option>))
+                  : null
               }
               <option value="default">Select File Type</option>
             </select>

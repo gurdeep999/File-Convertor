@@ -100,7 +100,7 @@ padding: 4rem 5rem;
   }
 `
 
-const Convertor = (props) => {
+const Convertor = () => {
   const [file, setFile] = useState(null)
   const [from, setFrom] = useState('default')
   const [to, setTo] = useState('default')
@@ -120,10 +120,6 @@ const Convertor = (props) => {
     } catch (e) {
       console.log('error while downloading file')
     }
-  }
-
-  const destroyFile = async (path) => {
-    await fileService.destroy(path)
   }
 
   const handleSubmit = async (e) => {

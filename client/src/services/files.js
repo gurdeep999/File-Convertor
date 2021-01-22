@@ -8,13 +8,8 @@ const upload = async (data) => {
       'Content-Type': 'multipart/form-data'
     },
   }
-  const response = await axios.post(`${API_URL}/test`, data, config)
+  const response = await axios.post(`${API_URL}/file`, data, config)
   return response.data
-}
-
-const destroy = async (path) => {
-  const response = await axios.post(`${API_URL}/delete`, { path })
-  console.log(response.data.message)
 }
 
 const download = async (fileName) => {
@@ -26,7 +21,7 @@ const download = async (fileName) => {
 }
 
 const fileService = {
-  upload, destroy, download
+  upload, download
 }
 
 export default fileService
